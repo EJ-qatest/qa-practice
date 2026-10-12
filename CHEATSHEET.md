@@ -142,6 +142,21 @@ A JSON page in the browser is just the server's ANSWER - nothing is saved to you
 
 ---
 
+## Lesson 11 - Git (save points)
+**Every session, at the end:**
+```bash
+git status                       # what changed? (red = not staged, green = staged)
+git diff                         # exactly what changed (+ added, - removed). q to exit
+git add .                        # stage everything (except .gitignore list)
+git commit -m "what I did"       # seal the save point with a message
+git log --oneline                # see history
+```
+- `.gitignore` lists what Git skips (venv/, __pycache__/, .DS_Store).
+- **Git** = save points on your Mac. **GitHub** = online copy others can see.
+- Commit messages say WHAT changed: "Add API tests for update + delete", not "stuff".
+
+---
+
 ## Checks (expect)
 | Check | Passes when |
 |-------|-------------|

@@ -150,7 +150,11 @@ git diff                         # exactly what changed (+ added, - removed). q 
 git add .                        # stage everything (except .gitignore list)
 git commit -m "what I did"       # seal the save point with a message
 git log --oneline                # see history
+git push                         # upload to GitHub
 ```
+- My repo: https://github.com/EJ-qatest/qa-practice
+- Password prompts show NOTHING when you paste - paste once, press Enter.
+- GitHub token (`ghp_...`) = Terminal password. Never share it. Expires in 90 days - make a new one then.
 - `.gitignore` lists what Git skips (venv/, __pycache__/, .DS_Store).
 - **Git** = save points on your Mac. **GitHub** = online copy others can see.
 - Commit messages say WHAT changed: "Add API tests for update + delete", not "stuff".

@@ -32,6 +32,7 @@ class InventoryPage:
         self.sort_dropdown = page.locator("[data-test='product-sort-container']")
         self.menu_button = page.locator("#react-burger-menu-btn")
         self.logout_link = page.locator("[data-test='logout-sidebar-link']")
+       
         
 
     def add_backpack_to_cart(self):
@@ -49,6 +50,9 @@ class InventoryPage:
     def logout(self):
         self.menu_button.click()
         self.logout_link.click()
+
+    def add_bike_light_to_cart(self):
+        self.page.locator("[data-test='add-to-cart-sauce-labs-bike-light']").click()
 
 class CartPage:
     def __init__(self, page: Page):

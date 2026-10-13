@@ -132,7 +132,15 @@ def test_cart_is_empty(page: Page):
     expect(cart.title).to_have_text("Your Cart")
     expect(cart.item_names).to_have_count(0)
     
-    
+def test_two_items_show_badge_2(page: Page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    inventory.add_backpack_to_cart()
+    inventory.add_bike_light_to_cart()
+    expect(inventory.cart_badge).to_have_text("2")    
     
     
     

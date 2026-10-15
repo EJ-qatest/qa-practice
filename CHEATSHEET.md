@@ -172,6 +172,18 @@ git push                         # upload to GitHub
 
 ---
 
+## Lesson 14 - Evidence: screenshots + reports
+```bash
+pytest lessons/lesson-09 -v --screenshot only-on-failure      # PNG of the page when a test fails -> test-results/
+pytest ... -v --html=report.html --self-contained-html         # one shareable HTML report (pip install pytest-html)
+open report.html
+```
+- **Triage with the screenshot:** does the page show what the test expected? If the page is right -> the TEST is wrong. If the page is wrong -> real bug.
+- In CI, `actions/upload-artifact` saves report + screenshots. `if: always()` = save them EVEN when tests fail (that's when you need them).
+- Download from: Actions -> the run -> bottom of page -> **Artifacts**.
+
+---
+
 ## Checks (expect)
 | Check | Passes when |
 |-------|-------------|

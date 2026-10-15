@@ -23,4 +23,13 @@ jobs:
           playwright install --with-deps chromium
 
       - name: Run my tests
-        run: pytest lessons/lesson-09 lessons/lesson-10 practice -v
+        run: pytest lessons/lesson-09 lessons/lesson-10 practice -v --screenshot only-on-failure --html=report.html --self-contained-html
+
+      - name: Save report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: |
+            report.html
+            test-results/

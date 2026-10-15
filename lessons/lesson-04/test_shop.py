@@ -1,4 +1,4 @@
-# Lesson 4: pytest - many small, independent tests
+# Lesson 9: pytest - many small, independent tests
 # Read it first. Guess. Then run it.
 
 from playwright.sync_api import Page, expect

@@ -4,7 +4,7 @@
 
 ## About me
 
-I'm a QA engineer with 5 years of manual testing experience across web, iOS, and Android apps, plus some hardware testing.
+I'm a QA engineer with 6 years of manual testing experience across web, iOS, and Android apps, plus some hardware testing.
 I'm now building my automation skills, and this repo is where I practice: turning the test cases I'd normally run by hand
 into reliable, automated tests that run on every code change.
 

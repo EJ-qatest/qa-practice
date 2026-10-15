@@ -161,6 +161,17 @@ git push                         # upload to GitHub
 
 ---
 
+## Lesson 12 - CI with GitHub Actions
+- **CI** = a cloud computer runs my tests automatically on every `git push`.
+- Recipe lives in `.github/workflows/tests.yml`. Tool list lives in `requirements.txt`.
+- Each run = a brand-new empty Ubuntu computer -> it must install everything.
+- See results: GitHub repo -> **Actions** tab. Green check = passed, red X = failed.
+- Pushing workflow files needs a token with the **workflow** permission (classic: tick `workflow`; fine-grained: Workflows = Read and write).
+- **Warnings/notices are FYI, not failures.** Check the green/red status and the `X passed` line.
+- I choose what CI runs on purpose (only real pytest tests, no duplicate file names, no visible-browser scripts).
+
+---
+
 ## Checks (expect)
 | Check | Passes when |
 |-------|-------------|

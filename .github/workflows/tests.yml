@@ -1,0 +1,26 @@
+# Lesson 12: GitHub runs my tests automatically on every push
+
+name: Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get my code
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install my tools
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: Run my tests
+        run: pytest lessons/lesson-09 lessons/lesson-10 practice -v

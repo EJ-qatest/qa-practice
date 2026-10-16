@@ -21,4 +21,11 @@ def test_get_post_one():
     assert response.status_code == 200
     post = response.json()
     assert post["id"] == 1
+
+
+def test_add_backpack_shows_badge(logged_in_page: Page):
+    logged_in_page.locator("[data-test='add-to-cart-sauce-labs-backpack']").click()
+    badge = logged_in_page.locator("[data-test='shopping-cart-badge']")
+    expect(badge).to_have_text("1")
+    
     

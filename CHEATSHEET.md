@@ -96,7 +96,7 @@ def test_x(page: Page):
 ### Page Object RECIPE (structure never changes - only names + selectors do)
 ```python
 class ____Page:                          # 1. page name + "Page"
-    def __init__(self, page: Page):      # 2. ALWAYS this exact line
+    def __init__(self, page: Page):      # 2. this exact line
         self.page = page                 # 3. ALWAYS this exact line
         self.____ = page.locator("...")  # 4. one line per element (name = what it IS)
 

@@ -1,3 +1,6 @@
+import requests
+
+BASE_URL = "https://jsonplaceholder.typicode.com"
 from playwright.sync_api import Page, expect
 
 
@@ -12,4 +15,10 @@ def test_login_works(page: Page):
     page.locator("[data-test='login-button']").click()
     # 5. check the URL is the inventory page
     expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+
+def test_get_post_one():
+    response = requests.get(f"{BASE_URL}/posts/1")
+    assert response.status_code == 200
+    post = response.json()
+    assert post["id"] == 1
     

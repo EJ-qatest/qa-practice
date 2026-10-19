@@ -184,6 +184,16 @@ open report.html
 
 ---
 
+## Lesson 15 - Flaky tests
+- **Flaky** = passes sometimes, fails sometimes, same code. Automation's "can't reproduce".
+- **Always fails** = consistently broken (easier: there's a clear cause). **Sometimes fails** = flaky (dangerous: people start ignoring red).
+- Common causes: **timing**, **leftover state**, **changing data**, **unreliable outside systems**.
+- `pytest ... --count=10` (pip install pytest-repeat) = run each test 10x. Prove a fix by running it MANY times.
+- `.count()` and `all_inner_texts()` don't wait -> use `expect(...).to_have_count(n)` and wait for the new page first.
+- Outside-system flakiness: retry (band-aid), more time, fake the server (mocking), or **report it** - sometimes the flaky test is telling the truth about a flaky product.
+
+---
+
 ## Checks (expect)
 | Check | Passes when |
 |-------|-------------|

@@ -194,6 +194,18 @@ open report.html
 
 ---
 
+## Known bugs: xfail
+```python
+@pytest.mark.xfail(reason="BUG-002: Add to cart broken for some products (problem_user)")
+def test_problem_user_can_add_bolt_tshirt(page: Page): ...
+```
+- **xfailed** = failed as expected (known bug) -> suite stays green.
+- **XPASS** = it unexpectedly PASSED -> the bug may be fixed! Go check.
+- **Danger:** xfail hides ANY failure, including a broken test (wrong selector...). Always pair it with a **control test** (same steps, user where it works) that must PASS.
+- A test hanging ~30 s usually means a selector that matches nothing.
+
+---
+
 ## Checks (expect)
 | Check | Passes when |
 |-------|-------------|

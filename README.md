@@ -16,6 +16,7 @@ into reliable, automated tests that run on every code change.
 | `lessons/lesson-10` | **API tests** covering create, read, update, delete, plus negative cases (404) |
 | `lessons/lesson-08` | Shared setup with **pytest fixtures** and `conftest.py` |
 | `practice/` | Solo practice: API data checks, debugging exercises |
+| `bug-reports/` | **Exploratory testing**: bug reports and a requirements question from manual testing of the same app |
 | `.github/workflows/` | **CI**: every push runs the test suite automatically on GitHub Actions |
 
 ## Tech stack

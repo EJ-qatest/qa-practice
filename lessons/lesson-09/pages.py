@@ -74,6 +74,7 @@ class CheckoutPage:
         self.continue_button = page.locator("[data-test='continue']")
         self.finish_button = page.locator("[data-test='finish']")
         self.complete_header = page.locator("[data-test='complete-header']")
+        self.error_message = page.locator("[data-test='error']")
 
     def fill_details(self, first_name: str, last_name: str, postal_code: str):
         self.first_name_box.fill(first_name)
@@ -83,6 +84,7 @@ class CheckoutPage:
 
     def finish_order(self):
         self.finish_button.click()
+        
         
           
         

@@ -32,6 +32,7 @@ class InventoryPage:
         self.sort_dropdown = page.locator("[data-test='product-sort-container']")
         self.menu_button = page.locator("#react-burger-menu-btn")
         self.logout_link = page.locator("[data-test='logout-sidebar-link']")
+        self.backpack_link = page.locator("[data-test='item-4-title-link']")
        
         
 
@@ -53,6 +54,11 @@ class InventoryPage:
 
     def add_bike_light_to_cart(self):
         self.page.locator("[data-test='add-to-cart-sauce-labs-bike-light']").click()
+
+# 
+    def backpack_page(self):
+        self.backpack_link.click()
+        
 
 class CartPage:
     def __init__(self, page: Page):
@@ -84,6 +90,18 @@ class CheckoutPage:
 
     def finish_order(self):
         self.finish_button.click()
+
+
+class ProductPage:
+
+        
+    def __init__(self, page: Page):
+        self.page = page
+        self.back_button = page.locator("[data-test='back-to-products']")
+        self.name = page.locator("[data-test='inventory-item-name']")
+        self.price = page.locator("[data-test='inventory-item-price']")
+        self.description = page.locator("[data-test='inventory-item-desc']")
+
         
         
           

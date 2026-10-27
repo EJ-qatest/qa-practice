@@ -28,7 +28,7 @@ def test_add_backpack_shows_badge(logged_in_page: Page):
     badge = logged_in_page.locator("[data-test='shopping-cart-badge']")
     expect(badge).to_have_text("1")
 
-def test_shows_6_products(logged_in_page:Page):
+def test_shows_6_products(logged_in_page: Page):
     names = logged_in_page.locator("[data-test='inventory-item-name']")
     expect(names).to_have_count(6)
 

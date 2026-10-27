@@ -2,7 +2,7 @@
 # Read it first. Guess. Then run it.
 
 from playwright.sync_api import Page, expect
-from pages import LoginPage, InventoryPage, CheckoutPage, CartPage
+from pages import LoginPage, InventoryPage, CheckoutPage, CartPage,ProductPage
 
 
 def test_locked_out_user_sees_error(page: Page):
@@ -158,10 +158,23 @@ def test_checkout_without_first_name_shows_error(page: Page):
     checkout = CheckoutPage(page)
     checkout.fill_details("", "Salivan", "94562")
     expect(checkout.error_message).to_contain_text("First Name is required")
-    
-    
+
+def test_product_info(page: Page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    inventory.backpack_page()          # the method you just made
+
+    product = ProductPage(page)
+    expect(product.back_button).to_be_visible()
+    expect(product.name).to_have_text("Sauce Labs Backpack")
+    expect(product.price).to_have_text("$29.99")
+    expect(product.description).to_be_visible()
     
 
+   
     
     
     

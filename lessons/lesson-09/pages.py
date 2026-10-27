@@ -69,9 +69,13 @@ class CartPage:
         self.title = page.locator("[data-test='title']")
         self.item_names = page.locator("[data-test = 'inventory-item-name']")
         self.checkout_button = page.locator("[data-test='checkout']")
+        self.continue_shopping_button = page.locator("[data-test='continue-shopping']")
 
     def start_checkout(self):
         self.checkout_button.click()
+
+    def continue_shopping(self):
+        self.continue_shopping_button.click()
 
 
 class CheckoutPage:

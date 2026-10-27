@@ -190,6 +190,24 @@ def test_back_to_products_keeps_cart(page: Page):
     expect(page).to_have_url("https://www.saucedemo.com/inventory.html")         # prove we're back on the list
     expect(inventory.cart_badge).to_have_text("1")
     expect(inventory.backpack_remove_button).to_have_text("Remove")
+
+
+def test_continue_shopping_keeps_cart(page: Page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    inventory.add_backpack_to_cart()
+    inventory.open_cart()
+
+    cart = CartPage(page)
+    expect(cart.title).to_have_text("Your Cart")     # prove we're on the cart
+    cart.continue_shopping()
+
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")           # prove we're back on the list
+    expect(inventory.cart_badge).to_have_text("1")
+    expect(inventory.backpack_remove_button).to_have_text("Remove")
     
 
    

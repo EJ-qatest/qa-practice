@@ -33,6 +33,9 @@ class InventoryPage:
         self.menu_button = page.locator("#react-burger-menu-btn")
         self.logout_link = page.locator("[data-test='logout-sidebar-link']")
         self.backpack_link = page.locator("[data-test='item-4-title-link']")
+        self.backpack_remove_button = page.locator("[data-test='remove-sauce-labs-backpack']")
+
+        
        
         
 
@@ -96,12 +99,21 @@ class ProductPage:
 
         
     def __init__(self, page: Page):
+       
         self.page = page
         self.back_button = page.locator("[data-test='back-to-products']")
         self.name = page.locator("[data-test='inventory-item-name']")
         self.price = page.locator("[data-test='inventory-item-price']")
         self.description = page.locator("[data-test='inventory-item-desc']")
+        self.add_to_cart_button = page.locator("[data-test='add-to-cart']")
 
+    def add_to_cart(self):
+        self.add_to_cart_button.click()
+        
+    def go_back(self):
+        self.back_button.click()
+
+         
         
         
           

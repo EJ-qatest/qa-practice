@@ -172,6 +172,24 @@ def test_product_info(page: Page):
     expect(product.name).to_have_text("Sauce Labs Backpack")
     expect(product.price).to_have_text("$29.99")
     expect(product.description).to_be_visible()
+
+
+def test_back_to_products_keeps_cart(page: Page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    inventory.backpack_page()
+
+    product = ProductPage(page)
+    expect(product.back_button).to_be_visible()     # prove we're on details page
+    product.add_to_cart()
+    product.go_back()
+
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")         # prove we're back on the list
+    expect(inventory.cart_badge).to_have_text("1")
+    expect(inventory.backpack_remove_button).to_have_text("Remove")
     
 
    

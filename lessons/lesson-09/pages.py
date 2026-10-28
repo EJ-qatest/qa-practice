@@ -70,13 +70,14 @@ class CartPage:
         self.item_names = page.locator("[data-test = 'inventory-item-name']")
         self.checkout_button = page.locator("[data-test='checkout']")
         self.continue_shopping_button = page.locator("[data-test='continue-shopping']")
-
+        
     def start_checkout(self):
         self.checkout_button.click()
 
     def continue_shopping(self):
         self.continue_shopping_button.click()
 
+   
 
 class CheckoutPage:
     def __init__(self, page: Page):
@@ -88,6 +89,7 @@ class CheckoutPage:
         self.finish_button = page.locator("[data-test='finish']")
         self.complete_header = page.locator("[data-test='complete-header']")
         self.error_message = page.locator("[data-test='error']")
+        self.cancel_button = page.locator("[data-test='cancel']")
 
     def fill_details(self, first_name: str, last_name: str, postal_code: str):
         self.first_name_box.fill(first_name)
@@ -97,6 +99,10 @@ class CheckoutPage:
 
     def finish_order(self):
         self.finish_button.click()
+
+    def cancel(self):
+        self.cancel_button.click()
+
 
 
 class ProductPage:

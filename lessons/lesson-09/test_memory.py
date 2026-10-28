@@ -1,6 +1,6 @@
 
 from playwright.sync_api import Page, expect
-from pages import LoginPage, InventoryPage, CartPage, CheckoutPage
+from pages import LoginPage, InventoryPage, CartPage, CheckoutPage, ProductPage
 
 
 def test_checkout_without_first_name_shows_error(page: Page):
@@ -25,3 +25,24 @@ def test_checkout_without_first_name_shows_error(page: Page):
 
     # 5. Check the error
     expect(checkout.error_message).to_contain_text("First Name is required")
+
+
+def test_product_info(page: Page):
+    # log in as standard_user
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+    
+    # click the backpack name
+    inventory = InventoryPage(page)
+    inventory.backpack_page()
+    
+    # prove you're on the details page
+    product_page = ProductPage(page)
+    expect(product_page.back_button).to_be_visible()
+    # check the name is Sauce Labs Backpack
+    
+    expect(product_page.name).to_have_text("Sauce Labs Backpack")
+    # check the price is $29.99
+    expect(product_page.price).to_have_text("$29.99")
+    

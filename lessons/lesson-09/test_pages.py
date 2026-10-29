@@ -3,6 +3,7 @@
 
 from playwright.sync_api import Page, expect
 from pages import LoginPage, InventoryPage, CheckoutPage, CartPage,ProductPage
+import pytest
 
 
 def test_locked_out_user_sees_error(page: Page):
@@ -230,6 +231,58 @@ def test_cancel_checkout_returns_to_cart(page: Page):
     expect(page).to_have_url("https://www.saucedemo.com/cart.html")
     # check the backpack is still in the cart
     expect(cart.item_names).to_have_text("Sauce Labs Backpack")
+
+
+def test_cancel_at_overview_returns_to_inventory(page: Page):
+    #Login using satndard_user
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+    #Add the backpack,open the cart
+    inventory = InventoryPage(page)
+    inventory.add_backpack_to_cart()
+    inventory.open_cart()
+    #prove you are on cart, start checkout
+    cart = CartPage(page)
+    expect(cart.title).to_have_text("Your Cart")
+    cart.start_checkout()
+    #fill checkout info, click checkout
+    checkout = CheckoutPage(page)
+    checkout.fill_details("qw", "we", "94563")
+    
+    #prove your are on overview page
+    expect(page).to_have_url("https://www.saucedemo.com/checkout-step-two.html")
+    #click cancel
+    checkout.cancel()
+    
+    #prove your are on inventory page
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+    # check the backpack is still in the cart
+    expect(inventory.cart_badge).to_have_text("1")
+    expect(inventory.backpack_remove_button).to_have_text("Remove")
+
+
+def test_standard_user_sees_correct_backpack_price(page: Page):
+    # log in as standard_user
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+    # check the first product price is $29.99
+    inventory = InventoryPage(page)
+    expect(inventory.product_prices.first).to_have_text("$29.99")
+
+
+@pytest.mark.xfail(reason="BUG-004: visual_user prices are random and change every login")
+def test_visual_user_sees_correct_backpack_price(page: Page):
+    # log in as visual_user
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("visual_user")
+    # check the first product price is $29.99
+    inventory = InventoryPage(page)
+    expect(inventory.product_prices.first).to_have_text("$29.99")
+    
+    
     
 
    

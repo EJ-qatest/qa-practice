@@ -1,6 +1,7 @@
 
 from playwright.sync_api import Page, expect
 from pages import LoginPage, InventoryPage, CartPage, CheckoutPage, ProductPage
+import pytest
 
 
 def test_checkout_without_first_name_shows_error(page: Page):
@@ -61,6 +62,24 @@ def test_continue_shopping_keeps_cart(page: Page):
     expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
     expect(inventory.cart_badge).to_have_text("1")
     expect(inventory.backpack_remove_button).to_have_text("Remove")
+
+def test_standard_user_tocheck_backpack_price(page: Page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    expect(inventory.product_prices.first).to_have_text("$29.99")
+
+@pytest.mark.xfail(reason="BUG-004: visual_user sees random prices on the product list")
+    
+def test_visual_user_tocheck_backpack_price(page: Page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("visual_user")
+
+    inventory = InventoryPage(page)
+    expect(inventory.product_prices.first).to_have_text("$29.99")
     
      
 

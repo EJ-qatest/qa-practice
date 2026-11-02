@@ -20,5 +20,8 @@ Right after logging in, the cart badge shows **2**. Sauce Labs Backpack and Sauc
 
 `standard_user` can also check out and complete the order for these items (Item total $39.98, Total $43.18, then "Thank you for your order!"), even though they were added by `visual_user`.
 
+## Scope
+The cart is stored in the browser and persists for days across logins, until items are removed manually. Any user who logs in on that browser later sees it.
+
 ## Evidence
 Screen recording: Screen Recording 2026-10-27 at 11.32.20AM.mov (full flow: visual_user adds items, logs out, standard_user logs in and completes checkout)

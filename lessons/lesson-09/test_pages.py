@@ -284,8 +284,43 @@ def test_visual_user_sees_correct_backpack_price(page: Page):
     
     
     
+def test_standard_user_logins_cart_badge_zero(page: Page):
+    # log in as standard_user
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
 
+    inventory = InventoryPage(page)
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+    expect(inventory.product_names.first).to_be_visible()
+    expect(inventory.cart_badge).not_to_be_visible()
+
+@pytest.mark.xfail(raises=AssertionError, reason = "BUG-003 is the cart shared between users")
+def test_visual_user_cart_badge_leaks_to_next_user(page: Page):
+    # log in as visual_user
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("visual_user")
+
+    inventory = InventoryPage(page)
+    inventory.add_backpack_to_cart()
+    expect(inventory.cart_badge).to_be_visible()
+    inventory.logout()
+    
+    #login as standard_user
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+    expect(inventory.product_names.first).to_be_visible()
+    expect(inventory.cart_badge).not_to_be_visible()
    
+    
+    
+
+
     
     
     

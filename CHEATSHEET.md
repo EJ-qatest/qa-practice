@@ -12,8 +12,10 @@ Prompt should show `(venv) ... qa-practice %`
 
 ## Running tests
 ```bash
-pytest lessons/lesson-08 -v                          # run a folder, list each test
-pytest lessons/lesson-08 -v --headed --slowmo 500    # watch the browser
+pytest -v                                            # run the WHOLE portfolio suite (pytest.ini -> tests/)
+pytest tests/web -v                                  # run a folder, list each test
+pytest tests/web/test_saucedemo.py -k cancel -v      # one file, only tests with "cancel" in the name
+pytest tests/web -v --headed --slowmo 500            # watch the browser
 ```
 - **Check the COUNT**, not just green. A misnamed test (`check_...` instead of `test_...`) is silently skipped.
 - **FAILED** = the test's check failed. **ERROR** = setup (a fixture) broke before the test started.
@@ -174,7 +176,7 @@ git push                         # upload to GitHub
 
 ## Lesson 14 - Evidence: screenshots + reports
 ```bash
-pytest lessons/lesson-09 -v --screenshot only-on-failure      # PNG of the page when a test fails -> test-results/
+pytest -v --screenshot only-on-failure      # PNG of the page when a test fails -> test-results/
 pytest ... -v --html=report.html --self-contained-html         # one shareable HTML report (pip install pytest-html)
 open report.html
 ```
@@ -222,3 +224,33 @@ def test_problem_user_can_add_bolt_tshirt(page: Page): ...
 - **Empty list counts as "sorted".** Check the count too.
 - `.click()` returns nothing - never save a click into a variable.
 - **Failure messages only run when a check fails.** A wrong variable name inside `f"..."` hides until the worst moment. Re-read messages after renaming things.
+
+
+## Repo structure (Nov 3)
+```
+pages/          Page Objects (saucedemo.py) - __init__.py lets tests do `from pages import LoginPage`
+tests/web/      UI tests          tests/api/   API tests
+bug-reports/    reports + evidence/
+learning/       old lessons + practice (NOT run by `pytest`)
+pytest.ini      testpaths = tests, pythonpath = .
+```
+Run learning files on purpose: `pytest learning/lessons/lesson-09/test_memory.py -v`
+Run a demo/script (no test_ functions): `python3 learning/practice/tester_demo.py`
+
+## Commands to look up (don't memorize)
+- `mkdir -p a/b/c` - make nested folders
+- `git mv OLD NEW` - move/rename a file and keep its git history
+- `git config http.postBuffer 524288000` - fix "RPC failed; HTTP 400" on big pushes
+- Stuck at `quote>` / `dquote>` in terminal = unclosed quote -> Ctrl+C
+
+## Known-bug tests (xfail)
+```python
+import pytest
+
+@pytest.mark.xfail(raises=AssertionError, reason="BUG-003: ...")
+def test_...(page: Page):
+```
+- `raises=AssertionError` - a typo/crash shows FAILED instead of hiding as xfail
+- It does NOT catch a missing `()` - the click silently never happens
+- Always pair with a control test that passes
+- "not visible" checks: first wait for something that SHOULD be there (`expect(inventory.product_names.first).to_be_visible()`)

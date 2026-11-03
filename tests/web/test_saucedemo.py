@@ -272,7 +272,7 @@ def test_standard_user_sees_correct_backpack_price(page: Page):
     expect(inventory.product_prices.first).to_have_text("$29.99")
 
 
-@pytest.mark.xfail(reason="BUG-004: visual_user prices are random and change every login")
+@pytest.mark.xfail(raises=AssertionError, reason="BUG-004: visual_user prices are random and change every login")
 def test_visual_user_sees_correct_backpack_price(page: Page):
     # log in as visual_user
     login_page = LoginPage(page)

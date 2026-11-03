@@ -80,6 +80,39 @@ def test_visual_user_tocheck_backpack_price(page: Page):
 
     inventory = InventoryPage(page)
     expect(inventory.product_prices.first).to_have_text("$29.99")
+
+def test_standard_user_cart_badge_zero(page: Page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+    expect(inventory.product_names.first).to_be_visible()
+    expect(inventory.cart_badge).not_to_be_visible()
+
+@pytest.mark.xfail(raises=AssertionError, reason = "BUG-003 : the cart is shared between users on the same browser.")
+def test_visual_user_cart_badge_leaks_to_next_user(page: Page):
+   
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("visual_user")
+
+    inventory = InventoryPage(page)
+    inventory.add_backpack_to_cart()
+    expect(inventory.cart_badge).to_be_visible()
+    inventory.logout()
+
+    login_page.login("standard_user")
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+    expect(inventory.product_names.first).to_be_visible()
+    expect(inventory.cart_badge).not_to_be_visible()
+
+    
+
+    
+
+
     
      
 

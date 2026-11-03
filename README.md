@@ -12,11 +12,11 @@ into reliable, automated tests that run on every code change.
 
 | Folder | What it shows |
 |--------|---------------|
-| `lessons/lesson-09` | UI tests for an e-commerce site using the **Page Object Model** (login, cart, checkout, sorting, logout) |
-| `lessons/lesson-10` | **API tests** covering create, read, update, delete, plus negative cases (404) |
-| `lessons/lesson-08` | Shared setup with **pytest fixtures** and `conftest.py` |
-| `practice/` | Solo practice: API data checks, debugging exercises |
-| `bug-reports/` | **Exploratory testing**: bug reports and a requirements question from manual testing of the same app |
+| `tests/web/` | UI tests for an e-commerce site (login, cart, checkout, sorting, product details, navigation, known-bug tests) |
+| `tests/api/` | **API tests** covering create, read, update, delete, plus negative cases (404) |
+| `pages/` | **Page Object Model**: one class per page, so tests read like test cases |
+| `learning/` | My learning path: lessons and solo practice (not part of the test suite) |
+| `bug-reports/` | **Exploratory testing**: 5 bug reports and 2 requirements questions, with screenshot evidence |
 | `.github/workflows/` | **CI**: every push runs the test suite automatically on GitHub Actions |
 
 ## Tech stack
@@ -38,7 +38,7 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 playwright install chromium
-pytest lessons/lesson-09 lessons/lesson-10 practice -v
+pytest -v
 ```
 
 ## What's next

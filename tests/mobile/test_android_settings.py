@@ -24,3 +24,10 @@ def test_open_network_settings(driver):
 
     internet = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Internet")')
     assert internet.is_displayed()
+
+def test_open_display_settings(driver):
+    display = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Display")')
+    display.click()
+
+    display_size = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Display size")')
+    assert display_size.is_displayed()

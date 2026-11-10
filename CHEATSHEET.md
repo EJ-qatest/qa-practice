@@ -289,3 +289,11 @@ appium driver list --installed   # should show uiautomator2@8.7.3
 - `.click()` = tap/click something. `.get()` = fetch data (API). Appium check: `x.is_displayed()`; Playwright: `expect(x).to_be_visible()`
 - Scroll to an item below the fold: `settings.scroll_to("Accessibility").click()` (UiScrollable template in SettingsScreen)
 - Debug "not found": `print("X" in driver.page_source)` + run with `-s` to see prints. Flaky? `--count=5`
+
+### Appium Inspector (DevTools for phones)
+- Start emulator + `appium` first. Inspector: host 127.0.0.1, port 4723, path /
+- Capabilities JSON (same as my fixture - don't paste the word "json"):
+  `{"platformName": "Android", "appium:automationName": "UiAutomator2", "appium:deviceName": "emulator-5554", "appium:appPackage": "com.android.settings", "appium:appActivity": ".Settings"}`
+- Click an element in the screenshot -> Selected Element shows text / resource-id / content-desc / class
+- Pick the UNIQUE one: `android:id/title` is shared by every row (bad) -> use text. `...:id/search_bar_title` is unique (good) -> use ID:
+  `driver.find_element(AppiumBy.ID, "com.android.settings:id/search_bar_title")`

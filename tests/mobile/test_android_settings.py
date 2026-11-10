@@ -2,6 +2,7 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
+from pages.android_settings import SettingsScreen
 
 
 @pytest.fixture
@@ -19,15 +20,11 @@ def driver():
 
 
 def test_open_network_settings(driver):
-    network = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Network")')
-    network.click()
-
-    internet = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Internet")')
-    assert internet.is_displayed()
+    settings = SettingsScreen(driver)
+    settings.open_item("Network")
+    assert settings.is_showing("Internet")
 
 def test_open_display_settings(driver):
-    display = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Display")')
-    display.click()
-
-    display_size = driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Display size")')
-    assert display_size.is_displayed()
+    settings = SettingsScreen(driver)
+    settings.open_item("Display")
+    assert settings.is_showing("Display size")

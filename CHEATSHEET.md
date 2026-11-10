@@ -269,3 +269,21 @@ appium driver list --installed   # should show uiautomator2@8.7.3
 - My Homebrew is an old Intel copy - don't use it; use official installers.
 - Driver version MUST match Appium: Appium 3.x -> uiautomator2 8.x (9.x needs Appium 4). If you see a yellow WARN about peer dependency:
   `appium driver uninstall uiautomator2` then `appium driver install uiautomator2@8.7.3`
+
+### Finding things for mobile tests
+- **Element text** = the words on the emulator screen. Copy EXACTLY (case + spaces). `textContains` is case-sensitive.
+  `'new UiSelector().textContains("Display size")'`
+- **App package/activity** = open the app on the emulator, then run:
+  `adb shell dumpsys window | grep mCurrentFocus`
+  -> `com.android.settings/com.android.settings.Settings` = app_package / app_activity (`.Settings` = shorthand)
+- Run `adb`/`pytest` in the venv tab, NOT the tab where `appium` is running.
+- `NoSuchElementException` = not found in 10s: text doesn't match / needs scroll / wrong screen.
+- Mobile tests run only on my Mac. CI skips them (`--ignore=tests/mobile`).
+
+### Naming: variable name vs text
+| Writing... | Example | Rule |
+|---|---|---|
+| Class | `SettingsScreen` | CamelCase |
+| Variable / method | `settings`, `open_item` | lowercase_with_underscores |
+| Text in quotes | `"Display size"` | copy EXACTLY from the screen |
+- `.click()` = tap/click something. `.get()` = fetch data (API). Appium check: `x.is_displayed()`; Playwright: `expect(x).to_be_visible()`

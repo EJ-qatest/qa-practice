@@ -23,7 +23,7 @@ jobs:
           playwright install --with-deps chromium
 
       - name: Run my tests
-        run: pytest -v --screenshot only-on-failure --html=report.html --self-contained-html
+        run: pytest -v --ignore=tests/mobile --screenshot only-on-failure --html=report.html --self-contained-html
 
       - name: Save report and screenshots
         if: always()

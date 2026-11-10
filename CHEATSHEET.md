@@ -254,3 +254,18 @@ def test_...(page: Page):
 - It does NOT catch a missing `()` - the click silently never happens
 - Always pair with a control test that passes
 - "not visible" checks: first wait for something that SHOULD be there (`expect(inventory.product_names.first).to_be_visible()`)
+
+
+## Mobile setup (Nov 4) - Appium + Android
+```
+# Before a mobile session:
+# 1. Android Studio > Device Manager > Play (starts the Pixel 8 Pro emulator)
+adb devices          # should list emulator-5554  device
+appium               # start the Appium server (port 4723) - leave it running, Ctrl+C to stop
+appium -v            # check version (3.9.0)
+appium driver list --installed   # should show uiautomator2@8.7.3
+```
+- Env vars live in `~/.zshrc` (ANDROID_HOME, PATH, JAVA_HOME). New terminal picks them up.
+- My Homebrew is an old Intel copy - don't use it; use official installers.
+- Driver version MUST match Appium: Appium 3.x -> uiautomator2 8.x (9.x needs Appium 4). If you see a yellow WARN about peer dependency:
+  `appium driver uninstall uiautomator2` then `appium driver install uiautomator2@8.7.3`

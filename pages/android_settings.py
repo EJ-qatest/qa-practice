@@ -14,3 +14,11 @@ class SettingsScreen:
 
     def is_showing(self, text):
         return self.find_text(text).is_displayed()
+
+
+    def scroll_to(self, text):
+        # tells Android: "scroll the list until this text is on screen"
+        return self.driver.find_element(
+            AppiumBy.ANDROID_UIAUTOMATOR,
+            f'new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().textContains("{text}"))'
+        )

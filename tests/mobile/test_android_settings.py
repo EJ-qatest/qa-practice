@@ -2,7 +2,7 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
-from pages.android_settings import SettingsScreen
+from pages.android_settings import SettingsScreen 
 
 
 @pytest.fixture
@@ -28,3 +28,8 @@ def test_open_display_settings(driver):
     settings = SettingsScreen(driver)
     settings.open_item("Display")
     assert settings.is_showing("Display size")
+
+def test_open_accessibility_settings(driver):
+    settings = SettingsScreen(driver)
+    settings.scroll_to("Accessibility").click()
+    assert settings.is_showing("TalkBack")

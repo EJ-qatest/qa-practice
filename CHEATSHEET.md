@@ -287,3 +287,5 @@ appium driver list --installed   # should show uiautomator2@8.7.3
 | Variable / method | `settings`, `open_item` | lowercase_with_underscores |
 | Text in quotes | `"Display size"` | copy EXACTLY from the screen |
 - `.click()` = tap/click something. `.get()` = fetch data (API). Appium check: `x.is_displayed()`; Playwright: `expect(x).to_be_visible()`
+- Scroll to an item below the fold: `settings.scroll_to("Accessibility").click()` (UiScrollable template in SettingsScreen)
+- Debug "not found": `print("X" in driver.page_source)` + run with `-s` to see prints. Flaky? `--count=5`

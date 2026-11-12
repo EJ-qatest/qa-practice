@@ -317,9 +317,27 @@ def test_visual_user_cart_badge_leaks_to_next_user(page: Page):
     expect(inventory.product_names.first).to_be_visible()
     expect(inventory.cart_badge).not_to_be_visible()
    
+    #Automate this: when a user sorts the product list by Name (A to Z), the first product should be Sauce Labs Backpack and the last product should be Test.allTheThings() T-Shirt (Red).    
     
+def test_product_sort_sequence(page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    inventory.sort_by("za")
+    expect(inventory.product_names.first).to_have_text("Test.allTheThings() T-Shirt (Red)")
+    inventory.sort_by("az")
+    expect(inventory.product_names.first).to_have_text("Sauce Labs Backpack") 
+    names_list = inventory.product_names.all_inner_texts()
+    
+    assert len(names_list) == 6, f"Expected 6 names, found {len(names_list)}"
+    assert names_list == sorted(names_list), f"names not sorted A to Z: {names_list}"
+    expect(inventory.product_names.first).to_have_text("Sauce Labs Backpack")
+    expect(inventory.product_names.last).to_have_text("Test.allTheThings() T-Shirt (Red)")
     
 
+    
 
     
     

@@ -1,4 +1,3 @@
-
 # Lesson 9: Page Objects - each page's selectors and actions live in ONE place
 
 from playwright.sync_api import Page

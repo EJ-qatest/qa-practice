@@ -297,3 +297,20 @@ appium driver list --installed   # should show uiautomator2@8.7.3
 - Click an element in the screenshot -> Selected Element shows text / resource-id / content-desc / class
 - Pick the UNIQUE one: `android:id/title` is shared by every row (bad) -> use text. `...:id/search_bar_title` is unique (good) -> use ID:
   `driver.find_element(AppiumBy.ID, "com.android.settings:id/search_bar_title")`
+
+### Typing + IDs (Nov 12)
+```python
+driver.find_element(AppiumBy.ID, "com.android.settings:id/search_bar_title").click()
+box = driver.find_element(AppiumBy.CLASS_NAME, "android.widget.EditText")   # the only text box
+box.send_keys("bright")          # like Playwright .fill()
+settings.search("bright")        # my Page Object method
+```
+- Type `bright`, check `Brightness` -> otherwise is_showing could find MY OWN typing in the box (false pass)
+- Page Object methods DO things; tests CHECK things.
+- Inspector + pytest can't both control the emulator. Close Inspector session first.
+- After sort/click: `expect(...first)` WAITS; `all_inner_texts()` does NOT -> expect first, then grab the list.
+
+### App's launcher activity (the "front door") - Nov 16
+- `adb shell cmd package resolve-activity --brief <package>` -> the activity Appium must start with
+- `dumpsys window | grep mCurrentFocus` = the screen you're ON now (may not be startable!)
+- Error "Permission Denial ... not exported" = you used an inner screen -> use the launcher activity instead

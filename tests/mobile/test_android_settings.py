@@ -56,5 +56,11 @@ def test_search_settings(driver):
     #check "Brightness" is showing
     assert settings.is_showing("Brightness")
 
+def test_search_wifi(driver):
+    settings = SettingsScreen(driver)
+    settings.search("wifi")
+    assert settings.is_showing("Use Wi-Fi")
+    
+
 
     

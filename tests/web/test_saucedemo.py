@@ -337,6 +337,38 @@ def test_product_sort_sequence(page):
     expect(inventory.product_names.last).to_have_text("Test.allTheThings() T-Shirt (Red)")
     
 
+"""Automate this: a user adds the Backpack and the Bike Light to the cart, opens the cart, and removes the Backpack from the cart page. The cart should then show only the Bike Light, and the badge should show 1.
+
+The rules:
+
+Write it in tests/web/test_saucedemo.py
+Allowed: your Page Objects, your existing tests, and Chrome DevTools on saucedemo.com to find any locator you’re missing (right-click → Inspect, like Inspector for the web)
+No asking me for the first 10 minutes
+You choose the test name and the run command """
+
+def test_removing_product_update_cart_badge(page):
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login("standard_user")
+
+    inventory = InventoryPage(page)
+    inventory.add_backpack_to_cart()
+    inventory.add_bike_light_to_cart()
+    expect(inventory.cart_badge).to_have_text("2")
+    inventory.open_cart()
+    cart = CartPage(page)
+    expect(cart.title).to_have_text("Your Cart")
+    cart.remove_backpack_from_cartpage()
+    expect(cart.item_names).to_have_text("Sauce Labs Bike Light")
+    expect(cart.item_names).to_have_count(1)
+    expect(inventory.cart_badge).to_have_text("1")
+    
+    
+    
+    
+    
+    
+    
     
 
     

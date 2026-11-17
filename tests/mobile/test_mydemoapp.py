@@ -2,6 +2,7 @@ import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
+from pages.mydemoapp import LoginScreen, ProductsScreen
 
 
 
@@ -18,42 +19,26 @@ def driver():
     driver.quit()
 
 def test_login_works(driver):
-    # tap the menu icon (menuIV)
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/menuIV").click()
-    # tap "Log In" in the menu (by text)
-    driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Log In")').click()
+    login_screen = LoginScreen(driver)
+    login_screen.open()
+    assert login_screen.is_open()
+    login_screen.login("bod@example.com")
+    products_screen = ProductsScreen(driver)
+    assert products_screen.is_open()
+   
 
-    # prove you're on the login screen (loginTV is displayed)
-    login_title = driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/loginTV")
-    assert login_title.is_displayed()
-    # type the username into nameET
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/nameET").send_keys('bod@example.com')
-    # type the password into passwordET
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/passwordET").send_keys('10203040')
-    # tap loginBtn
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/loginBtn").click()
-    # check you landed on the right screen after login
-    products_title = driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/productTV")
-    assert products_title.is_displayed()
+def test_lockedout_user_sees_error(driver):
+    login_screen = LoginScreen(driver)
+    login_screen.open()
+    assert login_screen.is_open()
+    login_screen.login("alice@example.com")
+    assert login_screen.locked_out()
+    
+    
+    
 
-def test_lockedout_works(driver):
-    # tap the menu icon (menuIV)
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/menuIV").click()
-    # tap "Log In" in the menu (by text)
-    driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("Log In")').click()
-
-    # prove you're on the login screen (loginTV is displayed)
-    login_title = driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/loginTV")
-    assert login_title.is_displayed()
-    # type the username into nameET
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/nameET").send_keys('alice@example.com')
-    # type the password into passwordET
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/passwordET").send_keys('10203040')
-    # tap loginBtn
-    driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/loginBtn").click()
-    # check you landed on the right screen after login
-    driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().textContains("locked out")')
-
-
+    
+    
+   
 
     

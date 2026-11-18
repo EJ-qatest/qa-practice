@@ -314,3 +314,20 @@ settings.search("bright")        # my Page Object method
 - `adb shell cmd package resolve-activity --brief <package>` -> the activity Appium must start with
 - `dumpsys window | grep mCurrentFocus` = the screen you're ON now (may not be startable!)
 - Error "Permission Denial ... not exported" = you used an inner screen -> use the launcher activity instead
+
+### My Demo App IDs (prefix: com.saucelabs.mydemoapp.android:id/) - found by me in Inspector, Nov 18
+| Screen | Element | ID |
+|---|---|---|
+| Products | title / product image / cart icon | productTV / productIV / cartIV |
+| Product | Add to cart | cartBt |
+| Cart | Proceed To Checkout | cartBt (same ID reused!) |
+| Shipping | title | checkoutTitleTV |
+| Shipping | name / address1 / address2 / city / state / zip / country | fullNameET / address1ET / address2ET / cityET / stateET / zipET / countryET |
+| Shipping | To Payment | paymentBtn |
+| Payment | title | enterPaymentTitleTV |
+| Payment | name / card / expiry / CVV | nameET / cardNumberET / expirationDateET / securityCodeET |
+| Payment | Review Order | paymentBtn (reused) |
+| Review | Place Order | paymentBtn (reused) |
+| Login | menu / title / user / pass / button | menuIV / loginTV / nameET / passwordET / loginBtn |
+- Same ID on different screens -> ALWAYS prove which screen you're on first (title check).
+- Phone Back button = `driver.back()` (no ID needed)

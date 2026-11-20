@@ -52,6 +52,9 @@ class ProductsScreen:
     def open_cart(self):
         # tap the cart icon (cartIV)
         self.driver.find_element(AppiumBy.ID, f"{PKG}cartIV").click()
+    def cart_badge(self):
+        badge = self.driver.find_element(AppiumBy.ID, f"{PKG}cartTV")
+        return badge.text        # gives back what it shows, like "3"
 
 
 class ProductScreen:
@@ -61,6 +64,11 @@ class ProductScreen:
 
     def add_to_cart(self):
         self.driver.find_element(AppiumBy.ID, f"{PKG}cartBt").click()
+
+    def tap_plus(self, times):
+        for i in range(times):
+            self.driver.find_element(AppiumBy.ID, f"{PKG}plusIV").click()
+        
 
 
 class CartScreen:

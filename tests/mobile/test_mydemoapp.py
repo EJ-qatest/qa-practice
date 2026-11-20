@@ -3,6 +3,7 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from pages.mydemoapp import LoginScreen, ProductsScreen, ProductScreen, CartScreen, ShippingScreen, PaymentScreen, ReviewScreen, CompleteScreen
+PKG = "com.saucelabs.mydemoapp.android:id/"
 
 
 
@@ -80,6 +81,22 @@ def test_back_after_checkout_does_not_allow_reorder(driver):
     # check the Review screen is NOT showing again
     review_screen = ReviewScreen(driver)
     assert not review_screen.is_open()
+
+def test_add_multiple_item_cartbadge(driver):
+    login_screen = LoginScreen(driver)
+    login_screen.open()
+    assert login_screen.is_open()
+    login_screen.login("bod@example.com")
+    products_screen = ProductsScreen(driver)
+    products_screen.open_first_product()
+    product = ProductScreen(driver)
+    product.tap_plus(2)
+    product.add_to_cart()
+    assert products_screen.cart_badge() == "3"
+    
+    
+    
+    
     
 
     

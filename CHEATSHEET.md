@@ -331,3 +331,10 @@ settings.search("bright")        # my Page Object method
 | Login | menu / title / user / pass / button | menuIV / loginTV / nameET / passwordET / loginBtn |
 - Same ID on different screens -> ALWAYS prove which screen you're on first (title check).
 - Phone Back button = `driver.back()` (no ID needed)
+
+### Nov 19 additions
+- `adb: device unauthorized` -> `adb kill-server` then `adb start-server` then `adb devices` (still bad? Device Manager > ... > Cold Boot Now)
+- Inspector frozen? End Session (X) -> Start Session -> navigate -> refresh. Save caps with "Save As..."
+- Loop: `for i in range(times):` repeats the indented lines
+- Read an element's words: `element.text`; compare with `==` (one `=` stores, two `==` compares)
+- Badge `cartTV` only exists when the cart has items

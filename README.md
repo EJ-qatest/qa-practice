@@ -12,18 +12,21 @@ into reliable, automated tests that run on every code change.
 
 | | |
 |---|---|
-| **Web UI tests** | 22 (Playwright + Page Object Model) |
+| **Web UI tests** | 24 (Playwright + Page Object Model) |
 | **API tests** | 7 (`requests`, full CRUD + negative cases) |
-| **Known-bug tests** | 2, each paired with a passing control test |
-| **Bug reports** | 5 bugs + 2 requirements questions, with screenshot evidence |
+| **Android tests** | 10 (Appium + UiAutomator2, Page Object Model) on a demo shopping app and the Settings app |
+| **Known-bug tests** | 3 (2 web, 1 mobile), each paired with a passing control test |
+| **Bug reports** | 7 bugs (5 web, 2 mobile) + 2 requirements questions, with screenshot evidence |
 | **CI** | Every push runs the suite on GitHub Actions, with an HTML report and failure screenshots |
 
 ## What's in this repo
 
 ```
-pages/          Page Objects - one class per page (login, inventory, product, cart, checkout)
+pages/          Page Objects - one file per app, one class per page/screen
+                  saucedemo.py (web), mydemoapp.py + android_settings.py (Android)
 tests/web/      UI tests for an e-commerce demo site (saucedemo.com)
 tests/api/      API tests against a public REST API (jsonplaceholder.typicode.com)
+tests/mobile/   Android tests: Sauce Labs My Demo App + the Settings app (run locally on an emulator)
 bug-reports/    Bug reports and requirements questions from exploratory testing, plus evidence/
 learning/       My learning path: lessons and solo practice (not part of the test suite)
 pytest.ini      Tells pytest where the tests live, so `pytest` runs the whole suite
@@ -40,6 +43,17 @@ pytest.ini      Tells pytest where the tests live, so `pytest` runs the whole su
 | Navigation | Back to products, Continue Shopping and both Cancel buttons all keep the cart |
 | Checkout | Full order, missing first name shows an error |
 
+### What the Android tests cover
+
+| Area | Examples |
+|---|---|
+| Login | Valid login, locked-out user sees an error |
+| Checkout (end to end) | Product -> cart -> shipping -> payment -> review -> order complete, across 8 screens |
+| Navigation | Menus, scrolling to items below the fold, the phone's Back button |
+| Search | Tap a field by ID, type, check the results |
+
+Locators were found with **Appium Inspector** (resource-ids, text, element types). Screens that reuse the same button ID are always confirmed by their title before tapping.
+
 ## Bugs I found
 
 I explored the app by hand first, like I would on a real project, and wrote up what I found.
@@ -51,6 +65,8 @@ I explored the app by hand first, like I would on a real project, and wrote up w
 | [BUG-003](bug-reports/BUG-003-cart-shared-between-users.md) | Cart is shared between users on the same browser, and the next user can check out with it | High | Yes |
 | [BUG-004](bug-reports/BUG-004-random-prices-visual-user.md) | Product list shows random prices; checkout charges the real price | High | Yes |
 | [BUG-005](bug-reports/BUG-005-misaligned-titles.md) | Product titles and a button are misaligned (`visual_user`) | Low | - |
+| [MOBILE-BUG-001](bug-reports/MOBILE-BUG-001-back-after-checkout.md) | Android: pressing Back after "Checkout Complete" lets the user place the same order again | High | Yes |
+| [MOBILE-BUG-002](bug-reports/MOBILE-BUG-002-cart-shared-between-users.md) | Android: a new user sees the previous user's cart (same bug as BUG-003 on web) | High | - |
 | [QUESTION-001](bug-reports/QUESTION-001-quantity.md) | Can a customer order more than one of the same product? | - | - |
 | [QUESTION-002](bug-reports/QUESTION-002-red-tshirt-name.md) | Is "Test.allTheThings()" meant to be part of a product name? | - | - |
 
@@ -65,7 +81,7 @@ I use `xfail(raises=AssertionError)`, so only a failed check counts as the expec
 
 ## Tech stack
 
-Python · Playwright · pytest · requests · Git · GitHub Actions
+Python · Playwright · Appium (UiAutomator2) · Android Studio emulator · pytest · requests · Git · GitHub Actions
 
 ## My test strategy
 
@@ -84,14 +100,25 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 playwright install chromium
-pytest -v                                      # run the whole suite
+pytest -v --ignore=tests/mobile                # web + API suite (what CI runs)
 pytest tests/web -v --headed --slowmo 500      # watch the browser while UI tests run
 pytest -k cancel -v                            # only tests with "cancel" in the name
 ```
 
-Expected result: all tests pass, plus 2 `xfailed` (the known bugs above).
+Expected result: all tests pass, plus 2 `xfailed` (the known web bugs above).
+
+**Android tests** need a running emulator and Appium server:
+
+```bash
+npm install -g appium
+appium driver install uiautomator2@8.7.3       # driver version matching Appium 3.x
+appium                                         # start the server (leave it running)
+pytest tests/mobile -v                         # in a second terminal, with the emulator running
+```
+
+The My Demo App `.apk` comes from the [Sauce Labs releases page](https://github.com/saucelabs/my-demo-app-android/releases). CI skips the mobile folder, since GitHub's runners have no emulator.
 
 ## What's next
 
-- Mobile automation with Appium (Android + iOS)
+- iOS automation with Appium (XCUITest)
 - Testing AI / LLM features

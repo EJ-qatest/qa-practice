@@ -28,7 +28,7 @@ def test_login_works(driver):
     assert products_screen.is_open()
    
 
-def test_lockedout_user_sees_error(driver):
+def test_locked_out_user_sees_error(driver):
     login_screen = LoginScreen(driver)
     login_screen.open()
     assert login_screen.is_open()

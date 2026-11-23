@@ -338,3 +338,19 @@ settings.search("bright")        # my Page Object method
 - Loop: `for i in range(times):` repeats the indented lines
 - Read an element's words: `element.text`; compare with `==` (one `=` stores, two `==` compares)
 - Badge `cartTV` only exists when the cart has items
+
+### Git branches + pull requests (Nov 23) - how teams work
+```
+git checkout -b my-change          # 1. new branch (-b = create). Without -b = switch to existing
+git branch                         #    * shows which branch I'm on
+# ...edit + save...
+git add .
+git commit -m "Describe the change"   # 2. commit on the branch
+git push -u origin my-change       # 3. first push of a new branch (after that: git push)
+# 4. GitHub: Compare & pull request -> title + why -> Create -> check "Files changed" (red - / green +)
+# 5. Merge pull request -> Confirm -> Delete branch
+git checkout main                  # 6. back to main on my Mac
+git pull                           #    download the merged change (opposite of push)
+git branch -d my-change            #    optional: delete the local branch
+```
+- VS Code terminal: View > Terminal (Ctrl + `). Clicking a file in the sidebar OPENS it - don't open venv/bin files.
